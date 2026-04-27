@@ -16,7 +16,7 @@ const Footer = () => {
                 
                 {/* INSTALL APP BUTTON (New) */}
                 <a 
-                    href='https://drive.google.com/uc?export=download&id=1b3yoVSZiVGeN0Sqs0BrxZFDta9smcmSj'
+                    href='https://drive.google.com/file/d/1jOGSQ6Fx3oAl3R3HCk6IdynjjmEJ5DnA/view?usp=drivesdk'
                     className='flex items-center gap-1.5 bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition-all text-xs font-bold shadow-md active:scale-95'
                 >
                     <FaDownload className='text-xs'/>
