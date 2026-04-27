@@ -22,14 +22,10 @@ import { readFile } from 'fs/promises'
 const initializeFirebase = async () => {
     try {
         let serviceAccount;
-
-        // 1. Check if running on Cloud (Render)
         if (process.env.FIREBASE_SERVICE_ACCOUNT) {
             serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
             console.log("☁️ Using Firebase credentials from Env Variable");
-        } 
-        // 2. Otherwise use local file
-        else {
+        } else {
             serviceAccount = JSON.parse(
                 await readFile(new URL('./config/serviceAccountKey.json', import.meta.url))
             );
@@ -52,21 +48,36 @@ initializeFirebase();
 
 const app = express()
 
-app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL,
+// FIXED CORS: Added origin cleanup and validation
+const allowedOrigins = [
+    process.env.FRONTEND_URL?.replace(/\/$/, ""), // Removes trailing slash
+    "https://heerastore.vercel.app", // Explicitly added for safety
     "http://localhost:5173",
     "capacitor://localhost",
     "http://localhost",
     "http://localhost:8080"
-  ],
-  credentials: true
+].filter(Boolean);
+
+app.use(cors({
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            console.log("CORS Blocked for origin:", origin); // Debugging info
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"]
 }));
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
-app.use(morgan())
+app.use(morgan('dev'))
 app.use(helmet({
     crossOriginResourcePolicy : false
 }))
