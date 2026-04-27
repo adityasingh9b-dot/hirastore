@@ -1,0 +1,9 @@
+{
+  "appId": "com.adimart.app",
+  "appName": "AdiMart",
+  "webDir": "dist",
+  "server": {
+    "url": "https://ecommerce-frontend-gh79.onrender.com",
+    "cleartext": true
+  }
+}
