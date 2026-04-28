@@ -88,7 +88,7 @@ const MyOrders = () => {
           latestOrderIdRef.current = newestFetchedId;
         }
 
-        dispatch(setOrder(sortedOrders));
+        dispatch(setOrder([...sortedOrders]));
       } catch (err) {
         console.error('❌ Error fetching orders:', err.message);
       }
