@@ -59,7 +59,7 @@ const MyOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get('https://ecommerce-backend-gh79.onrender.com/api/order/order-list', {
+        const res = await axios.get('https://hirastore.vercel.app/api/order/order-list', {
           withCredentials: true
         });
 
