@@ -188,7 +188,7 @@ const MyOrders = () => {
                 </div>
                 
                 <div className='text-right'>
-                  <p className='text-sm text-gray-800 uppercase font-bold tracking-wider'>Total Paid</p>
+                  <p className='text-sm text-gray-800 uppercase font-bold tracking-wider'>Total Bill:</p>
                   <p className='text-xl font-black text-green-700'>
                     {formatCurrency(order.totalAmt || order.totalAmount)}
                   </p>
