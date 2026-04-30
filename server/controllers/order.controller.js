@@ -35,7 +35,69 @@ const sendOrderNotification = async (orderId, amount) => {
   }
 };
 
-// ✅ Cash on Delivery
+// ✅ Helper to send Telegram Album Alert based on Store
+const sendTelegramCODAlert = async (orderId, totalAmt, list_items, userId, addressId) => {
+  try {
+    const user = await UserModel.findById(userId);
+    const address = await mongoose.model('address').findById(addressId); 
+
+    // 1. Identify Store (Pehle item ki storeName se decide hoga)
+    // Maan lo list_items[0].productId.storeName "Hira Store" ya "Bhakhtawarmal" hai
+    const storeName = list_items[0]?.productId?.storeName || "Hira Store"; 
+    
+    let BOT_TOKEN = '8625328119:AAGcDEBq7K-NVg1h9LW3B_1bigTWtaXQUSE'; // Default: Hira Store
+    let CHAT_ID = '6893216524';
+
+    if (storeName === "Bhakhtawarmal") {
+      BOT_TOKEN = '8787474329:AAF-aIeurWkZPtWCIibYToBLqoailaaKUPY';
+      CHAT_ID = '6893216524';
+    }
+
+    // Items Summary with spacing (\n\n)
+    let itemsSummary = "";
+    list_items.forEach((item, i) => {
+      itemsSummary += `🔹 ${i + 1}. *${item.productId.name}*\n     Qty: ${item.quantity} | Price: ₹${item.productId.price}\n\n`;
+    });
+
+    // Caption with 3-line gaps (\n\n\n) between sections
+    const caption = `💰 *NEW COD ORDER [${storeName}]* 💰\n\n\n` +
+      `👤 *CUSTOMER DETAILS*\n` +
+      `━━━━━━━━━━━━━━━\n` +
+      `Name: ${user?.name || "Unknown"}\n` +
+      `Phone: ${address?.mobile || user?.mobile || "N/A"}\n` +
+      `Address: ${address?.address_line || "Check Admin"}\n\n\n` +
+      
+      `📦 *ORDERED ITEMS*\n` +
+      `━━━━━━━━━━━━━━━\n` +
+      `${itemsSummary}\n\n` +
+      
+      `💰 *BILLING SUMMARY*\n` +
+      `━━━━━━━━━━━━━━━\n` +
+      `*Total Bill: ₹${totalAmt}*\n` +
+      `Payment: CASH ON DELIVERY\n\n\n` +
+      
+      `✅ _HDS: Order deliver karne ki taiyari karo!_`;
+
+    // Album preparation (Max 10)
+    const mediaGroup = list_items.slice(0, 10).map((item, index) => ({
+      type: 'photo',
+      media: item.productId.image[0],
+      caption: index === 0 ? caption : '',
+      parse_mode: 'Markdown'
+    }));
+
+    await axios.post(`https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup`, {
+      chat_id: CHAT_ID,
+      media: JSON.stringify(mediaGroup)
+    });
+
+    console.log(`✅ Telegram Album sent to ${storeName}`);
+  } catch (err) {
+    console.error("❌ Telegram Alert Error:", err.message);
+  }
+};
+
+// ✅ Cash on Delivery Controller (Fixed with Telegram Album Alert)
 export async function CashOnDeliveryOrderController(request, response) {
   try {
     const userId = request.userId;
@@ -75,8 +137,12 @@ export async function CashOnDeliveryOrderController(request, response) {
     await CartProductModel.deleteMany({ userId });
     await UserModel.updateOne({ _id: userId }, { shopping_cart: [] });
 
-    // 🔥 NOTIFY ADMIN IMMEDIATELY
+    // 🔥 NOTIFY ADMIN (Firebase)
     sendOrderNotification(orderId, totalAmt);
+
+    // 🔥 SEND TELEGRAM ALBUM ALERT (Hira vs Bhakhtawarmal logic)
+    // Isko await nahi kar rahe taaki customer ko response turant mil jaye
+    sendTelegramCODAlert(orderId, totalAmt, list_items, userId, addressId);
 
     return response.json({
       message: "Order placed successfully",
