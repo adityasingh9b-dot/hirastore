@@ -5,6 +5,7 @@ import OrderModel from "../models/order.model.js";
 import UserModel from "../models/user.model.js";
 import ProductModel from "../models/product.model.js";
 import admin from "firebase-admin";
+import axios from "axios";
 
 // ✅ Helper to send notification to Admin App
 const sendOrderNotification = async (orderId, amount) => {
