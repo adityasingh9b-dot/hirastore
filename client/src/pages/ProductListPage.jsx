@@ -35,7 +35,7 @@ const ProductListPage = () => {
           categoryId: categoryId,
           subCategoryId: subCategoryId,
           page: page,
-          limit: 8,
+          limit: 50,
         }
       })
 
@@ -93,7 +93,9 @@ const ProductListPage = () => {
                       className=' w-14 lg:h-14 lg:w-12 h-full object-scale-down'
                     />
                   </div>
-                  <p className='-mt-6 lg:mt-0 text-xs text-center lg:text-left lg:text-base'>{s.name}</p>
+                  <p className={`-mt-6 lg:mt-0 text-xs text-center lg:text-left lg:text-base font-semibold ${subCategoryId === s._id ? "text-green-800" : "text-slate-700"}`}>
+  {s.name}
+</p>
                 </Link>
               )
             })
@@ -104,7 +106,7 @@ const ProductListPage = () => {
         {/**Product **/}
         <div className='sticky top-20'>
           <div className='bg-white shadow-md p-4 z-10'>
-            <h3 className='font-semibold'>{subCategoryName}</h3>
+           <h3 className='font-bold text-lg md:text-xl text-slate-900 capitalize'>{subCategoryName}</h3>
           </div>
           <div>
 
