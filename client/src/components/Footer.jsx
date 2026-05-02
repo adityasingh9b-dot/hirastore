@@ -1,26 +1,37 @@
 import React from 'react'
-import { FaWhatsapp, FaDownload } from "react-icons/fa"; 
+import { FaWhatsapp, FaDownload, FaCommentDots } from "react-icons/fa"; 
 
 const Footer = () => {
   return (
     <footer className='border-t bg-white sticky bottom-0 z-50 shadow-[0_-2px_10px_rgba(0,0,0,0.05)]'>
         <div className='container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3'>
             
-            {/* Copyright - Reduced size for mobile */}
+            {/* Copyright - Updated to Hira Department Store */}
             <p className='text-gray-500 text-[10px] md:text-xs order-3 md:order-1'>
-                © 2024 AdiMart.
+                © 2026 AdiMart
             </p>
 
             {/* Main Actions Container */}
             <div className='flex flex-wrap items-center justify-center gap-2 order-1 md:order-2'>
                 
-                {/* INSTALL APP BUTTON (New) */}
+                {/* INSTALL APP BUTTON */}
                 <a 
                     href='https://drive.google.com/file/d/1i-RDOvNup5Lus0Mbt8YE5Srem5Xfhv0E/view?usp=drivesdk'
                     className='flex items-center gap-1.5 bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition-all text-xs font-bold shadow-md active:scale-95'
                 >
                     <FaDownload className='text-xs'/>
                     INSTALL APP
+                </a>
+
+                {/* FEEDBACK BUTTON (New Purple Button) */}
+                <a 
+                    href='https://forms.gle/NmRBCiqYGCmhb9ck8'
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className='flex items-center gap-1.5 bg-purple-600 text-white px-3 py-1.5 rounded-lg hover:bg-purple-700 transition-all text-xs font-bold shadow-md active:scale-95'
+                >
+                    <FaCommentDots className='text-xs'/>
+                    FEEDBACK
                 </a>
 
                 {/* HELP SECTION */}
