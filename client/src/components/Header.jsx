@@ -42,7 +42,6 @@ const Header = () => {
             audioRef.current = new Audio(sirenFile);
         }
 
-        // --- FIXED: Ab check har bar chalega agar user Admin ya CoAdmin hai ---
         if (!isAdminOrCoAdmin) return;
 
         const checkNewOrders = async () => {
@@ -50,9 +49,6 @@ const Header = () => {
                 const response = await Axios({ ...SummaryApi.getOrderItems });
                 const orderList = response.data?.data || response.data || [];
                 const currentCount = orderList.length;
-
-                // Log for debugging
-                console.log("Monitoring Orders - Role:", user?.role, "Count:", currentCount);
 
                 if (lastOrderCount !== 0 && currentCount > lastOrderCount) {
                     playSiren();
@@ -63,11 +59,10 @@ const Header = () => {
             }
         };
 
-        // Initial check and then interval
         checkNewOrders();
         const interval = setInterval(checkNewOrders, 30000); 
         return () => clearInterval(interval);
-    }, [user, lastOrderCount, isAdminOrCoAdmin]); // Added isAdminOrCoAdmin to dependency
+    }, [user, lastOrderCount, isAdminOrCoAdmin]);
 
     // 2. Play Siren Function
     const playSiren = () => {
@@ -84,7 +79,6 @@ const Header = () => {
             });
             n.onclick = () => {
                 window.focus();
-                // --- FIXED: Manager ko sahi page par bhejne ke liye ---
                 navigate(isCoAdmin ? "/dashboard/myorders" : "/dashboard/orders");
                 stopSiren();
             };
@@ -119,7 +113,6 @@ const Header = () => {
 
     return (
         <header className='h-24 lg:h-20 lg:shadow-md sticky top-0 z-40 flex flex-col justify-center gap-1 bg-white'>
-            {/* Siren Alert Strip - Enabled for COADMIN */}
             {isSirenActive && isAdminOrCoAdmin && (
                 <div className='bg-red-600 text-white text-center py-2 animate-pulse flex justify-center items-center gap-4 fixed top-0 left-0 w-full z-50'>
                     <span className='font-bold'>🚨 NAYA ORDER MILA HAI!</span>
@@ -145,12 +138,22 @@ const Header = () => {
                             </div>
                         )}
 
-                        <div className=''>
+                        <div className='flex items-center gap-4 lg:gap-10'>
+                             {/* Black Button for bhakhtawarmal (Visible in Header) */}
+                             <a 
+                                href="https://bhakhtawarmal.vercel.app" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className='hidden lg:block bg-black text-white text-[10px] font-bold px-2 py-1 rounded hover:bg-gray-800 transition-all'
+                            >
+                                MAIN SITE
+                            </a>
+
                             <button className='text-neutral-600 lg:hidden' onClick={handleMobileUser}>
                                 <FaRegCircleUser size={26} />
                             </button>
 
-                            <div className='hidden lg:flex items-center gap-10'>
+                            <div className='hidden lg:flex items-center gap-6'>
                                 {
                                     user?._id ? (
                                         <div className='relative'>
