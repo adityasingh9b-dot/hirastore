@@ -64,7 +64,6 @@ const Header = () => {
         return () => clearInterval(interval);
     }, [user, lastOrderCount, isAdminOrCoAdmin]);
 
-    // 2. Play Siren Function
     const playSiren = () => {
         if (audioRef.current) {
             audioRef.current.loop = true;
@@ -87,7 +86,6 @@ const Header = () => {
         }
     };
 
-    // 3. Stop Siren
     const stopSiren = () => {
         if (audioRef.current) {
             audioRef.current.pause();
@@ -138,22 +136,22 @@ const Header = () => {
                             </div>
                         )}
 
-                        <div className='flex items-center gap-4 lg:gap-10'>
-                             {/* Black Button for bhakhtawarmal (Visible in Header) */}
+                        <div className='flex items-center gap-3'>
+                             {/* --- MOBILE ONLY BUTTON --- */}
                              <a 
                                 href="https://bhakhtawarmal.vercel.app" 
                                 target="_blank" 
                                 rel="noopener noreferrer"
-                                className='hidden lg:block bg-black text-white text-[10px] font-bold px-2 py-1 rounded hover:bg-gray-800 transition-all'
+                                className='lg:hidden bg-black text-white text-[10px] font-bold px-3 py-1.5 rounded shadow-sm'
                             >
-                                MAIN SITE
+                                N.B.S
                             </a>
 
                             <button className='text-neutral-600 lg:hidden' onClick={handleMobileUser}>
                                 <FaRegCircleUser size={26} />
                             </button>
 
-                            <div className='hidden lg:flex items-center gap-6'>
+                            <div className='hidden lg:flex items-center gap-10'>
                                 {
                                     user?._id ? (
                                         <div className='relative'>
