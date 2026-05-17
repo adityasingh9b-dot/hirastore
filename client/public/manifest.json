@@ -1,15 +1,20 @@
 {
-  "name": "S-Mart Bazaar Grocery Store",
-  "short_name": "Siddartha Enterprises",
+  "name": "AdiMart",
+  "short_name": "AdiMart",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#1e88e5",
+  "background_color": "#050505",
+  "theme_color": "#10b981",
   "orientation": "portrait",
   "scope": "/",
   "lang": "en",
   "dir": "ltr",
   "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
     {
       "src": "/icons/icon-192.png",
       "sizes": "192x192",
