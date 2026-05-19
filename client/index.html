@@ -1,79 +1,14 @@
+
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AdiMart</title>
-
-    <!-- 1. PWA Manifest Configuration File Connection -->
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#10b981" />
-  </head>
-  <body style="margin: 0; background-color: #050505;">
-    
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-
-    <!-- 2. Mobile-Optimized Bottom Action Sheet for App Installation -->
-    <div id="install-banner" style="position: fixed; bottom: 0; left: 0; right: 0; background: #111827; border-top: 3px solid #10b981; padding: 20px; border-top-left-radius: 16px; border-top-right-radius: 16px; box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.5); display: none; z-index: 99999; font-family: system-ui, -apple-system, sans-serif;">
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <!-- App Icon Placeholder (Uses your vite svg for branding) -->
-          <img src="/vite.svg" alt="AdiMart" style="width: 48px; height: 48px; background: #1f2937; padding: 6px; border-radius: 10px;" />
-          <div>
-            <h4 style="margin: 0; color: #ffffff; font-size: 1.1rem; font-weight: 700;">Install AdiMart App</h4>
-            <p style="margin: 2px 0 0 0; color: #9ca3af; font-size: 0.85rem;">100% Safe & Secure File</p>
-          </div>
-        </div>
-        <!-- Close Button cross icon -->
-        <button id="btn-close-banner" style="background: none; border: none; color: #9ca3af; font-size: 1.5rem; cursor: pointer; padding: 0 5px;">&times;</button>
-      </div>
-      <button id="btn-install" style="background: #10b981; color: #ffffff; border: none; width: 100%; padding: 12px; font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
-        INSTALL NOW (FREE)
-      </button>
-    </div>
-
-    <!-- 3. PWA Installation Engine Core Scripts -->
-    <script>
-      let deferredPrompt = null;
-      const installBanner = document.getElementById('install-banner');
-      const btnInstall = document.getElementById('btn-install');
-      const btnCloseBanner = document.getElementById('btn-close-banner');
-
-      // Check for PWA Support and Intercept Default Browser Prompt
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        
-        // Show our customized bottom shortcut banner sheet
-        installBanner.style.display = 'block';
-      });
-
-      // Handle Install Click Action
-      btnInstall.addEventListener('click', async () => {
-        if (!deferredPrompt) return;
-        
-        installBanner.style.display = 'none';
-        deferredPrompt.prompt();
-        
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-          console.log('AdiMart application shortcut successfully pinned!');
-        }
-        deferredPrompt = null;
-      });
-
-      // Close Button Handler
-      btnCloseBanner.addEventListener('click', () => {
-        installBanner.style.display = 'none';
-      });
-
-      // Hide if App Is Already Installed Successfully
-      window.addEventListener('appinstalled', () => {
-        installBanner.style.display = 'none';
-        deferredPrompt = null;
-      });
-    </script>
-  </body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AdiMart</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
